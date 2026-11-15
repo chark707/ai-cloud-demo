@@ -40,6 +40,8 @@ ai-cloud-demo/
 │   ├── index.js                               # servidor MCP (Node)
 │   └── package.json
 ├── samples/main.tf                            # Terraform con errores a propósito
+├── samples/network.tf                         # mal formateado a propósito (warning de fmt)
+├── samples/ok/main.tf                         # versión corregida: debería dar "aprobar"
 └── docs/arquitectura.{png,html}               # diagrama (generado con Archify)
 ```
 
@@ -47,7 +49,8 @@ ai-cloud-demo/
 
 | Tool | Qué hace | Permisos |
 |---|---|---|
-| `scan_terraform` | Escanea `.tf` y devuelve hallazgos ordenados por severidad | Solo lectura |
+| `scan_terraform` | Escanea `.tf`, suma el chequeo de `fmt` y devuelve hallazgos ordenados por severidad | Solo lectura |
+| `check_terraform_fmt` | Corre `terraform fmt -check` (o `tofu fmt`) y devuelve los archivos sin formatear con su diff | Solo lectura |
 | `get_tagging_standard` | Devuelve los tags obligatorios (`Owner`, `Environment`, `CostCenter`) | Solo lectura |
 
 ### Reglas implementadas
@@ -59,10 +62,11 @@ ai-cloud-demo/
 | 🟠 Media | `RDS_NOT_ENCRYPTED` | RDS sin `storage_encrypted = true` |
 | 🟠 Media | `S3_NO_SSE` | Bucket sin configuración de cifrado |
 | 🟡 Baja | `MISSING_TAGS` | Faltan tags obligatorios |
+| ⚪ Warning | `FMT_NOT_FORMATTED` | Archivo que `terraform fmt` reformatearía (estilo, no bloquea) |
 
 ## 🚀 Cómo correrlo
 
-**Requisitos:** Node 18+ y [Claude Code](https://claude.com/claude-code).
+**Requisitos:** Node 18+ y [Claude Code](https://claude.com/claude-code). Opcional: `terraform` o `tofu` en el PATH para el chequeo de formato (si no están, ese chequeo se omite y el reporte lo avisa).
 
 ```bash
 git clone <este-repo>
@@ -79,7 +83,7 @@ Revisá la carpeta samples/ con la skill terraform-review
 
 ## ✅ Resultado esperado
 
-Sobre `samples/main.tf` el scanner encuentra **6 hallazgos** (2 altos, 2 medios, 2 bajos). El agente:
+Sobre `samples/` el scanner encuentra **7 hallazgos**: 2 altos, 2 medios, 2 bajos y 1 warning de `fmt` (`network.tf`, mal formateado a propósito). El agente:
 
 1. Carga la Skill porque su descripción coincide con el pedido.
 2. Llama a `scan_terraform` y `get_tagging_standard`.
