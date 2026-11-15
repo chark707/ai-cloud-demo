@@ -26,16 +26,9 @@ Revisar PRs de Terraform es repetitivo: siempre se miran las mismas cosas (puert
 
 ## 🏗️ Arquitectura
 
-```mermaid
-flowchart LR
-    U[👤 Ingeniero] -->|"Revisá samples/"| A[🤖 Agente<br/>Claude Code]
-    A -->|1. carga| S[📘 Skill<br/>terraform-review]
-    A -->|2. llama tool| M[🔌 MCP server<br/>infra-guard]
-    M -->|lee solo lectura| T[(📄 archivos .tf)]
-    M -->|hallazgos JSON| A
-    A -->|3. verifica y redacta| R[📝 Reporte priorizado<br/>+ veredicto de merge]
-    R --> U
-```
+![Arquitectura: el ingeniero pide el review, el agente carga la Skill, llama al MCP infra-guard que lee los .tf, y devuelve un reporte con aprobación humana](docs/arquitectura.png)
+
+> Versión interactiva (con rutas animadas y modo oscuro): descargá [`docs/arquitectura.html`](docs/arquitectura.html) y abrila en el navegador. Generada con [Archify](https://github.com/tt-a1i/archify).
 
 ## 📁 Estructura
 
@@ -46,7 +39,8 @@ ai-cloud-demo/
 ├── mcp-server/
 │   ├── index.js                               # servidor MCP (Node)
 │   └── package.json
-└── samples/main.tf                            # Terraform con errores a propósito
+├── samples/main.tf                            # Terraform con errores a propósito
+└── docs/arquitectura.{png,html}               # diagrama (generado con Archify)
 ```
 
 ## 🔌 Tools del MCP `infra-guard`
