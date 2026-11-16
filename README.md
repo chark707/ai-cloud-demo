@@ -69,7 +69,7 @@ ai-cloud-demo/
 **Requisitos:** Node 18+ y [Claude Code](https://claude.com/claude-code). Opcional: `terraform` o `tofu` en el PATH para el chequeo de formato (si no están, ese chequeo se omite y el reporte lo avisa).
 
 ```bash
-git clone <este-repo>
+git clone https://github.com/chark707/ai-cloud-demo.git
 cd ai-cloud-demo
 (cd mcp-server && npm install)
 claude
@@ -114,3 +114,7 @@ Sobre `samples/` el scanner encuentra **7 hallazgos**: 2 altos, 2 medios, 2 bajo
 ## 📄 Licencia
 
 MIT
+
+## 👋 Autor
+
+Hecho por **Charles Samudio**, Cloud / Platform Engineer (AWS, Terraform, IaC) en Buenos Aires. Armé esto para practicar IA aplicada a infraestructura. Estoy abierto a nuevas oportunidades: [linkedin.com/in/chars-samudio](https://www.linkedin.com/in/chars-samudio)
